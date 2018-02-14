@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Valentines</title>
+</head>
+<body>
+
+<h1>{{user[0].name}}</h1>
+
+<fieldset>
+	<legend>Send a Valentine</legend>
+	<form action="/valentine/{{user[0].id}}" method="post">
+		<textarea name="message" cols=80 rows=10></textarea><br>
+		Send to: <select name="received_id">
+			{% for u in users %}
+				{% if u.id != user[0].id %}
+					<option value="{{u.id}}">{{u.name}}</option>
+				{% endif %}
+			{% endfor %}
+		</select><br>
+		<input type="submit" value="Send Valentine">
+	</form>
+</fieldset>
+
+<fieldset>
+	<legend>Sent Valentines</legend>
+	{% for msg in sent %}
+	<p>
+		<strong>To {{ msg.recipient }}:</strong> {{ msg.message }} <i>({{ msg.created_at }})</i>
+	</p>
+	{% endfor %}
+</fieldset>
+
+<fieldset>
+	<legend>Received Valentines</legend>
+	{% for msg in received %}
+	<p>
+		<strong>{{ msg.sender }} says:</strong> {{ msg.message }} <i>({{ msg.created_at }})</i>
+	</p>
+	{% endfor %}
+</fieldset>
+
+</body>
+</html>
